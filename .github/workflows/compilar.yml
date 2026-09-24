@@ -1,0 +1,35 @@
+name: Compilar APK de Flutter
+
+on:
+  workflow_dispatch: # Activa el botón manual en la pestaña Actions
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar el código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Configurar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Instalar dependencias
+        run: flutter pub get
+
+      - name: Compilar APK
+        run: flutter build apk --release --no-tree-shake-icons
+
+      - name: Subir el instalador APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-janellastore-release
+          path: build/app/outputs/flutter-apk/app-release.apk
+          
