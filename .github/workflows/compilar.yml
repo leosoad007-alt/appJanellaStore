@@ -24,6 +24,9 @@ jobs:
       - name: Instalar dependencias
         run: flutter pub get
 
+      - name: Forzar compatibilidad con código antiguo (AGP 9 Opt-out)
+        run: echo "android.newDsl=false" >> android/gradle.properties
+
       - name: Compilar APK
         run: flutter build apk --release --no-tree-shake-icons
 
